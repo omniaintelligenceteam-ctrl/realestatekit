@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{full_address}} — A New Listing</title>
+</head>
+<body style="margin:0;padding:0;background:#f5f1ea;font-family:'Cormorant Garamond','Georgia',serif;color:#1f1d1a;">
+  <!-- ============================================================
+       Listing Email Blast — paste-ready for Mailchimp / Constant Contact / SendGrid
+       Inline-styled. Mobile-responsive at 480px. Italiana for display, Cormorant Garamond
+       for body, Inter for stat numerals. Loaded via Google Fonts (graceful fallback to
+       Georgia + system sans).
+       ============================================================ -->
+
+  <div style="display:none;max-height:0;overflow:hidden;font-size:1px;line-height:1px;color:transparent;mso-hide:all;">
+    {{preview_text}}
+  </div>
+
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
+         style="background:#f5f1ea;width:100%;">
+    <tr>
+      <td align="center" style="padding:24px 12px;">
+        <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0"
+               style="width:600px;max-width:100%;background:#ffffff;border-radius:2px;
+                      box-shadow:0 2px 16px rgba(31,29,26,0.08);">
+
+          <!-- Header / brand mark -->
+          <tr>
+            <td align="center" style="padding:28px 32px 20px 32px;border-bottom:1px solid #e5dfd1;">
+              {{#logo_url}}<img src="{{logo_url}}" alt="{{brokerage}}" width="180"
+                style="max-width:180px;max-height:48px;display:block;border:0;">{{/logo_url}}
+              {{^logo_url}}<div style="font-family:'Italiana','Georgia',serif;font-size:18px;
+                letter-spacing:0.18em;text-transform:uppercase;color:#1f1d1a;">
+                {{brokerage_or_default}}
+              </div>{{/logo_url}}
+            </td>
+          </tr>
+
+          <!-- Hero photo -->
+          <tr>
+            <td style="padding:0;">
+              <a href="{{listing_url}}" style="text-decoration:none;color:inherit;">
+                <img src="{{hero_photo_url}}" alt="{{full_address}}" width="600"
+                     style="width:100%;max-width:600px;height:auto;display:block;border:0;">
+              </a>
+            </td>
+          </tr>
+
+          <!-- Eyebrow + address + price -->
+          <tr>
+            <td align="center" style="padding:36px 32px 12px 32px;">
+              <div style="font-family:'Inter','Helvetica',sans-serif;font-weight:500;
+                          font-size:11px;letter-spacing:0.32em;text-transform:uppercase;
+                          color:{{accent_color}};margin-bottom:14px;">
+                A New Listing in {{city}}
+              </div>
+              <h1 style="margin:0;font-family:'Italiana','Georgia',serif;
+                         font-size:40px;line-height:1.1;letter-spacing:0.01em;
+                         color:#1f1d1a;font-weight:400;">
+                {{street_address}}
+              </h1>
+              <div style="font-family:'Cormorant Garamond','Georgia',serif;
+                          font-style:italic;font-size:16px;color:#6e6a5e;
+                          letter-spacing:0.06em;margin-top:8px;">
+                {{city}}, {{state}} {{zipcode}}
+              </div>
+              <div style="font-family:'Italiana','Georgia',serif;font-size:30px;
+                          color:{{accent_color}};margin-top:16px;letter-spacing:0.02em;">
+                {{price_formatted}}
+              </div>
+            </td>
+          </tr>
+
+          <!-- Stats strip -->
+          <tr>
+            <td style="padding:24px 32px 28px 32px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
+                     style="border-top:1px solid #e5dfd1;border-bottom:1px solid #e5dfd1;">
+                <tr>
+                  <td align="center" style="padding:16px 4px;">
+                    <div style="font-family:'Inter','Helvetica',sans-serif;font-weight:300;
+                                font-size:24px;line-height:1;letter-spacing:-0.01em;color:#1f1d1a;">
+                      {{bedrooms}}
+                    </div>
+                    <div style="font-family:'Inter','Helvetica',sans-serif;font-weight:500;
+                                font-size:9px;letter-spacing:0.18em;text-transform:uppercase;
+                                color:{{accent_color}};margin-top:6px;">Bedrooms</div>
+                  </td>
+                  <td align="center" style="padding:16px 4px;">
+                    <div style="font-family:'Inter','Helvetica',sans-serif;font-weight:300;
+                                font-size:24px;line-height:1;letter-spacing:-0.01em;color:#1f1d1a;">
+                      {{bathrooms}}
+                    </div>
+                    <div style="font-family:'Inter','Helvetica',sans-serif;font-weight:500;
+                                font-size:9px;letter-spacing:0.18em;text-transform:uppercase;
+                                color:{{accent_color}};margin-top:6px;">Bathrooms</div>
+                  </td>
+                  <td align="center" style="padding:16px 4px;">
+                    <div style="font-family:'Inter','Helvetica',sans-serif;font-weight:300;
+                                font-size:24px;line-height:1;letter-spacing:-0.01em;color:#1f1d1a;">
+                      {{sqft_formatted}}
+                    </div>
+                    <div style="font-family:'Inter','Helvetica',sans-serif;font-weight:500;
+                                font-size:9px;letter-spacing:0.18em;text-transform:uppercase;
+                                color:{{accent_color}};margin-top:6px;">Sq Ft</div>
+                  </td>
+                  <td align="center" style="padding:16px 4px;">
+                    <div style="font-family:'Inter','Helvetica',sans-serif;font-weight:300;
+                                font-size:24px;line-height:1;letter-spacing:-0.01em;color:#1f1d1a;">
+                      {{year_built}}
+                    </div>
+                    <div style="font-family:'Inter','Helvetica',sans-serif;font-weight:500;
+                                font-size:9px;letter-spacing:0.18em;text-transform:uppercase;
+                                color:{{accent_color}};margin-top:6px;">Year Built</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Narrative -->
+          <tr>
+            <td style="padding:0 32px 24px 32px;">
+              <p style="margin:0;font-family:'Cormorant Garamond','Georgia',serif;
+                        font-size:17px;line-height:1.65;color:#1f1d1a;">
+                {{lede_paragraph}}
+              </p>
+            </td>
+          </tr>
+
+          <!-- 6-photo grid -->
+          <tr>
+            <td style="padding:0 32px 28px 32px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  <td width="33%" style="padding:2px;">
+                    <img src="{{strip_photo_1}}" alt="" width="100%"
+                         style="width:100%;height:auto;display:block;border:0;">
+                  </td>
+                  <td width="33%" style="padding:2px;">
+                    <img src="{{strip_photo_2}}" alt="" width="100%"
+                         style="width:100%;height:auto;display:block;border:0;">
+                  </td>
+                  <td width="33%" style="padding:2px;">
+                    <img src="{{strip_photo_3}}" alt="" width="100%"
+                         style="width:100%;height:auto;display:block;border:0;">
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- CTA button -->
+          <tr>
+            <td align="center" style="padding:8px 32px 36px 32px;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  <td style="background:{{accent_color}};border-radius:2px;">
+                    <a href="{{listing_url}}"
+                       style="display:inline-block;padding:16px 36px;
+                              font-family:'Inter','Helvetica',sans-serif;font-weight:500;
+                              font-size:13px;letter-spacing:0.22em;text-transform:uppercase;
+                              color:#ffffff;text-decoration:none;">
+                      View the Full Tour &nbsp;→
+                    </a>
+                  </td>
+                </tr>
+              </table>
+              <div style="font-family:'Cormorant Garamond','Georgia',serif;font-style:italic;
+                          font-size:14px;color:#6e6a5e;margin-top:12px;">
+                Photos · video walkthrough · floor plans · neighborhood
+              </div>
+            </td>
+          </tr>
+
+          <!-- Agent card -->
+          <tr>
+            <td style="padding:24px 32px 32px 32px;border-top:1px solid #e5dfd1;
+                       background:#fbf8f1;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  {{#headshot_url}}
+                  <td width="80" valign="top" style="padding-right:18px;">
+                    <img src="{{headshot_url}}" alt="{{agent_name}}" width="80"
+                         style="width:80px;height:80px;border-radius:50%;
+                                object-fit:cover;display:block;border:0;">
+                  </td>
+                  {{/headshot_url}}
+                  <td valign="top">
+                    <div style="font-family:'Italiana','Georgia',serif;font-size:22px;
+                                color:#1f1d1a;letter-spacing:0.01em;">
+                      {{agent_name}}
+                    </div>
+                    <div style="font-family:'Cormorant Garamond','Georgia',serif;
+                                font-style:italic;font-size:13px;color:{{accent_color}};
+                                margin-top:2px;">
+                      {{brokerage}}
+                    </div>
+                    <div style="font-family:'Inter','Helvetica',sans-serif;font-size:13px;
+                                color:#1f1d1a;line-height:1.6;margin-top:8px;">
+                      {{#phone}}<a href="tel:{{phone}}" style="color:#1f1d1a;text-decoration:none;">{{phone}}</a><br>{{/phone}}
+                      {{#email}}<a href="mailto:{{email}}" style="color:#1f1d1a;text-decoration:none;">{{email}}</a>{{/email}}
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td align="center" style="padding:20px 32px;background:#1f1d1a;color:#e8e2d4;">
+              <div style="font-family:'Italiana','Georgia',serif;font-size:14px;
+                          letter-spacing:0.18em;text-transform:uppercase;">
+                {{brokerage_or_default}}
+              </div>
+              <div style="font-family:'Inter','Helvetica',sans-serif;font-size:11px;
+                          color:rgba(232,226,212,0.6);letter-spacing:0.04em;margin-top:8px;">
+                {{#brokerage_address}}{{brokerage_address}} · {{/brokerage_address}}
+                {{#brokerage_phone}}{{brokerage_phone}}{{/brokerage_phone}}
+              </div>
+              <div style="font-family:'Inter','Helvetica',sans-serif;font-size:9.5px;
+                          letter-spacing:0.22em;text-transform:uppercase;
+                          color:rgba(232,226,212,0.4);margin-top:14px;">
+                {{footer_tagline}}
+              </div>
+            </td>
+          </tr>
+
+        </table>
+
+        <!-- Unsubscribe stub — Mailchimp/CC will inject the real link -->
+        <div style="font-family:'Inter','Helvetica',sans-serif;font-size:10px;
+                    color:#9c9682;margin-top:18px;letter-spacing:0.06em;">
+          You're receiving this because you opted in for new-listing alerts.
+        </div>
+
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

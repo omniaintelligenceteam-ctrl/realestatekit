@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{full_address}} — Listing Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ===== Print page setup ===== */
+  @page {
+    size: 8.5in 11in;
+    margin: 0;
+  }
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html, body {
+    margin: 0; padding: 0;
+    background: {{paper_color}};
+    color: {{text_color}};
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-size: 12pt;
+    line-height: 1.45;
+  }
+
+  /* ===== Page wrappers — exactly one page each ===== */
+  .page {
+    width: 8.5in;
+    height: 11in;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    background: {{paper_color}};
+  }
+  .page:last-child { page-break-after: auto; }
+
+  /* ===== Front page ===== */
+  .front-hero {
+    position: relative;
+    width: 8.5in;
+    height: 6.2in;
+    overflow: hidden;
+  }
+  .front-hero img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: contrast(1.04) saturate(1.06);
+  }
+  .front-hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg,
+      rgba(0,0,0,0.32) 0%,
+      rgba(0,0,0,0.04) 30%,
+      rgba(0,0,0,0.16) 60%,
+      rgba(0,0,0,0.62) 100%);
+  }
+  .front-hero .topbar {
+    position: absolute;
+    top: 0.5in; left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.6in;
+    z-index: 2;
+  }
+  .front-hero .topbar .brand-name {
+    font-family: 'Italiana', serif;
+    font-size: 16pt;
+    color: #ffffff;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .front-hero .topbar .brand-logo {
+    max-height: 0.55in;
+    max-width: 1.6in;
+    filter: brightness(0) invert(1);
+  }
+  .front-hero .price-tag {
+    position: absolute;
+    bottom: 0.55in; right: 0.6in;
+    font-family: 'Italiana', serif;
+    font-size: 36pt;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    z-index: 2;
+  }
+  .front-hero .address-tag {
+    position: absolute;
+    bottom: 0.55in; left: 0.6in;
+    z-index: 2;
+    color: #ffffff;
+  }
+  .front-hero .address-tag .street {
+    font-family: 'Italiana', serif;
+    font-size: 28pt;
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .front-hero .address-tag .city-state {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14pt;
+    margin-top: 4pt;
+    letter-spacing: 0.06em;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+
+  /* ===== Front lower section: stats + QR + agent ===== */
+  .front-body {
+    position: absolute;
+    top: 6.2in;
+    left: 0; right: 0;
+    height: 4.8in;
+    padding: 0.45in 0.6in 0.5in 0.6in;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.15in;
+    border-top: 1px solid {{accent_color}};
+    border-bottom: 1px solid {{accent_color}};
+    padding: 0.18in 0;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat .stat-num {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 22pt;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: {{text_color}};
+    margin-bottom: 4pt;
+  }
+  .stat .stat-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 7.5pt;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: {{accent_color}};
+  }
+
+  .qr-and-agent {
+    display: grid;
+    grid-template-columns: 1.6in 1fr;
+    gap: 0.45in;
+    align-items: center;
+    margin-top: 0.3in;
+  }
+  .qr-block {
+    text-align: center;
+  }
+  .qr-block img {
+    width: 1.5in; height: 1.5in;
+    display: block;
+    border: 1px solid #e5dfd1;
+    background: #ffffff;
+  }
+  .qr-block .qr-cap {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 7.5pt;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-top: 6pt;
+    color: {{accent_color}};
+  }
+
+  .agent-block {
+    border-left: 1px solid #d9d2bf;
+    padding-left: 0.4in;
+  }
+  .agent-block .agent-name {
+    font-family: 'Italiana', serif;
+    font-size: 22pt;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    margin-bottom: 4pt;
+  }
+  .agent-block .agent-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 11pt;
+    color: {{accent_color}};
+    margin-bottom: 10pt;
+  }
+  .agent-block .agent-line {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 10pt;
+    margin: 2pt 0;
+    color: {{text_color}};
+  }
+
+  .footer-tagline {
+    margin-top: 0.3in;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 7.5pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: {{accent_color}};
+    border-top: 1px solid #e5dfd1;
+    padding-top: 0.18in;
+  }
+
+  /* ===== Back page ===== */
+  .back-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.05in;
+    width: 8.5in;
+    height: 3.4in;
+  }
+  .back-strip .strip-img {
+    width: 100%; height: 100%;
+    overflow: hidden;
+  }
+  .back-strip .strip-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: contrast(1.04) saturate(1.06);
+  }
+
+  .back-body {
+    padding: 0.45in 0.6in 0;
+  }
+  .back-body h2 {
+    font-family: 'Italiana', serif;
+    font-size: 22pt;
+    margin: 0 0 0.18in 0;
+    letter-spacing: 0.02em;
+    border-bottom: 1px solid {{accent_color}};
+    padding-bottom: 0.1in;
+  }
+
+  .spec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4in;
+    margin-bottom: 0.35in;
+  }
+  .spec-col h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 8pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: {{accent_color}};
+    margin: 0 0 0.12in 0;
+  }
+  .spec-col dl {
+    margin: 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11pt;
+    line-height: 1.6;
+  }
+  .spec-col dt {
+    display: inline-block;
+    width: 1.3in;
+    color: #6e6a5e;
+    font-style: italic;
+  }
+  .spec-col dd {
+    display: inline;
+    margin: 0;
+    color: {{text_color}};
+  }
+  .spec-col dd::after { content: '\A'; white-space: pre; }
+
+  .description-block {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11pt;
+    line-height: 1.55;
+    color: {{text_color}};
+    margin-bottom: 0.3in;
+    column-count: 2;
+    column-gap: 0.4in;
+  }
+
+  .back-agent-card {
+    position: absolute;
+    bottom: 0.5in;
+    left: 0.6in; right: 0.6in;
+    display: grid;
+    grid-template-columns: 1.3in 1fr 1.5in;
+    gap: 0.35in;
+    align-items: center;
+    border-top: 1px solid {{accent_color}};
+    padding-top: 0.25in;
+  }
+  .back-agent-card .headshot {
+    width: 1.3in; height: 1.3in;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #e5dfd1;
+  }
+  .back-agent-card .headshot img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .back-agent-card .agent-info .name {
+    font-family: 'Italiana', serif;
+    font-size: 18pt;
+    letter-spacing: 0.02em;
+  }
+  .back-agent-card .agent-info .lic {
+    font-family: 'Inter', sans-serif;
+    font-size: 9pt;
+    color: #6e6a5e;
+    margin: 4pt 0;
+  }
+  .back-agent-card .agent-info .contact {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11pt;
+    line-height: 1.4;
+    margin-top: 4pt;
+  }
+  .back-agent-card .brokerage-block {
+    text-align: right;
+    border-left: 1px solid #d9d2bf;
+    padding-left: 0.3in;
+  }
+  .back-agent-card .brokerage-block img {
+    max-width: 1.4in;
+    max-height: 0.7in;
+    object-fit: contain;
+    margin-bottom: 6pt;
+  }
+  .back-agent-card .brokerage-block .brokerage-name {
+    font-family: 'Italiana', serif;
+    font-size: 11pt;
+    letter-spacing: 0.04em;
+  }
+  .back-agent-card .brokerage-block .brokerage-info {
+    font-family: 'Inter', sans-serif;
+    font-size: 8.5pt;
+    color: #6e6a5e;
+    margin-top: 4pt;
+    line-height: 1.4;
+  }
+
+  .back-footer-tagline {
+    position: absolute;
+    bottom: 0.18in;
+    left: 0; right: 0;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 7pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #9c9682;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============= PAGE 1 — FRONT ============= -->
+<section class="page page-front">
+  <div class="front-hero">
+    <img src="{{hero_photo_url}}" alt="{{full_address}}">
+    <div class="topbar">
+      {{#logo_url}}<img src="{{logo_url}}" class="brand-logo" alt="{{brokerage}}">{{/logo_url}}
+      {{^logo_url}}<span class="brand-name">{{brokerage_or_default}}</span>{{/logo_url}}
+      <span class="brand-name">{{short_brand}}</span>
+    </div>
+    <div class="address-tag">
+      <div class="street">{{street_address}}</div>
+      <div class="city-state">{{city}}, {{state}} {{zipcode}}</div>
+    </div>
+    <div class="price-tag">{{price_formatted}}</div>
+  </div>
+
+  <div class="front-body">
+    <div class="stats-strip">
+      <div class="stat"><div class="stat-num">{{bedrooms}}</div><div class="stat-label">Bedrooms</div></div>
+      <div class="stat"><div class="stat-num">{{bathrooms}}</div><div class="stat-label">Bathrooms</div></div>
+      <div class="stat"><div class="stat-num">{{sqft_short}}</div><div class="stat-label">Sq Ft</div></div>
+      <div class="stat"><div class="stat-num">{{lot_short}}</div><div class="stat-label">{{lot_unit}}</div></div>
+      <div class="stat"><div class="stat-num">{{year_built}}</div><div class="stat-label">Year Built</div></div>
+      <div class="stat"><div class="stat-num">{{garage_spaces}}</div><div class="stat-label">Garage</div></div>
+    </div>
+
+    <div class="qr-and-agent">
+      <div class="qr-block">
+        <img src="{{qr_url}}" alt="Scan for full tour">
+        <div class="qr-cap">Scan for Full Tour + Video</div>
+      </div>
+      <div class="agent-block">
+        <div class="agent-name">{{agent_name}}</div>
+        <div class="agent-title">{{brokerage}}</div>
+        {{#phone}}<div class="agent-line">{{phone}}</div>{{/phone}}
+        {{#email}}<div class="agent-line">{{email}}</div>{{/email}}
+        {{#license_number}}<div class="agent-line">License #{{license_number}}</div>{{/license_number}}
+      </div>
+    </div>
+
+    <div class="footer-tagline">{{footer_tagline}}</div>
+  </div>
+</section>
+
+<!-- ============= PAGE 2 — BACK ============= -->
+<section class="page page-back">
+  <div class="back-strip">
+    <div class="strip-img"><img src="{{strip_photo_1}}" alt=""></div>
+    <div class="strip-img"><img src="{{strip_photo_2}}" alt=""></div>
+    <div class="strip-img"><img src="{{strip_photo_3}}" alt=""></div>
+  </div>
+
+  <div class="back-body">
+    <h2>About this home</h2>
+
+    <div class="spec-grid">
+      <div class="spec-col">
+        <h3>Property</h3>
+        <dl>
+          <dt>List Price</dt><dd>{{price_formatted}}</dd>
+          <dt>Bedrooms</dt><dd>{{bedrooms}}</dd>
+          <dt>Bathrooms</dt><dd>{{bathrooms}}</dd>
+          <dt>Living Area</dt><dd>{{sqft_formatted}} sq ft</dd>
+          <dt>Lot</dt><dd>{{lot_size_formatted}}</dd>
+          <dt>Year Built</dt><dd>{{year_built}}</dd>
+          <dt>Garage</dt><dd>{{garage_spaces}} spaces</dd>
+          <dt>MLS #</dt><dd>{{mls_id}}</dd>
+        </dl>
+      </div>
+      <div class="spec-col">
+        <h3>Highlights</h3>
+        <dl>
+          {{#highlight_1}}<dt>•</dt><dd>{{highlight_1}}</dd>{{/highlight_1}}
+          {{#highlight_2}}<dt>•</dt><dd>{{highlight_2}}</dd>{{/highlight_2}}
+          {{#highlight_3}}<dt>•</dt><dd>{{highlight_3}}</dd>{{/highlight_3}}
+          {{#highlight_4}}<dt>•</dt><dd>{{highlight_4}}</dd>{{/highlight_4}}
+          {{#highlight_5}}<dt>•</dt><dd>{{highlight_5}}</dd>{{/highlight_5}}
+          {{#highlight_6}}<dt>•</dt><dd>{{highlight_6}}</dd>{{/highlight_6}}
+        </dl>
+      </div>
+    </div>
+
+    <div class="description-block">{{description_short}}</div>
+  </div>
+
+  <div class="back-agent-card">
+    <div class="headshot">
+      {{#headshot_url}}<img src="{{headshot_url}}" alt="{{agent_name}}">{{/headshot_url}}
+    </div>
+    <div class="agent-info">
+      <div class="name">{{agent_name}}</div>
+      <div class="lic">{{#license_number}}License #{{license_number}}{{/license_number}}</div>
+      <div class="contact">
+        {{#phone}}{{phone}}<br>{{/phone}}
+        {{#email}}{{email}}{{/email}}
+      </div>
+    </div>
+    <div class="brokerage-block">
+      {{#logo_url}}<img src="{{logo_url}}" alt="{{brokerage}}"><br>{{/logo_url}}
+      <div class="brokerage-name">{{brokerage}}</div>
+      <div class="brokerage-info">
+        {{#brokerage_address}}{{brokerage_address}}<br>{{/brokerage_address}}
+        {{#brokerage_phone}}{{brokerage_phone}}{{/brokerage_phone}}
+      </div>
+    </div>
+  </div>
+
+  <div class="back-footer-tagline">{{footer_tagline}}</div>
+</section>
+
+</body>
+</html>

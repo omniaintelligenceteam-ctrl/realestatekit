@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{full_address}} — Listing Brochure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ===== Print page setup — US Letter ===== */
+  @page { size: 8.5in 11in; margin: 0; }
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html, body {
+    margin: 0; padding: 0;
+    background: {{paper_color}};
+    color: {{text_color}};
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-size: 11.5pt;
+    line-height: 1.55;
+  }
+  .page {
+    width: 8.5in;
+    height: 11in;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    background: {{paper_color}};
+  }
+  .page:last-child { page-break-after: auto; }
+
+  /* Common page chrome */
+  .pg-num {
+    position: absolute;
+    bottom: 0.32in; left: 0; right: 0;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 7pt;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #9c9682;
+  }
+
+  /* ===== Page 1 — Cover ===== */
+  .cover {
+    position: relative;
+  }
+  .cover .cover-img {
+    position: absolute; inset: 0;
+  }
+  .cover .cover-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: contrast(1.04) saturate(1.06);
+  }
+  .cover::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg,
+      rgba(0,0,0,0.36) 0%,
+      rgba(0,0,0,0.04) 32%,
+      rgba(0,0,0,0.18) 65%,
+      rgba(0,0,0,0.78) 100%);
+    z-index: 1;
+  }
+  .cover .topbar {
+    position: absolute;
+    top: 0.6in; left: 0.7in; right: 0.7in;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ffffff;
+  }
+  .cover .topbar img {
+    max-height: 0.55in;
+    max-width: 1.7in;
+    filter: brightness(0) invert(1);
+  }
+  .cover .topbar .brand-name {
+    font-family: 'Italiana', serif;
+    font-size: 14pt;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .cover .topbar .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 8pt;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+  }
+  .cover .cover-title {
+    position: absolute;
+    bottom: 1.2in; left: 0.7in; right: 0.7in;
+    color: #ffffff;
+    z-index: 2;
+  }
+  .cover .cover-title .city-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 9pt;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    margin-bottom: 0.2in;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .cover .cover-title .street {
+    font-family: 'Italiana', serif;
+    font-size: 56pt;
+    line-height: 1.02;
+    letter-spacing: 0.005em;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .cover .cover-title .city-state {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18pt;
+    margin-top: 10pt;
+    letter-spacing: 0.06em;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .cover .cover-title .price {
+    font-family: 'Italiana', serif;
+    font-size: 32pt;
+    margin-top: 0.25in;
+    letter-spacing: 0.02em;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .cover .cover-footer {
+    position: absolute;
+    bottom: 0.45in; left: 0; right: 0;
+    text-align: center;
+    color: rgba(255,255,255,0.85);
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 7.5pt;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+
+  /* ===== Page 2 — Lede + photo split ===== */
+  .lede {
+    display: grid;
+    grid-template-rows: 5.5in 1fr;
+  }
+  .lede .lede-photo {
+    overflow: hidden;
+  }
+  .lede .lede-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: contrast(1.04) saturate(1.06);
+  }
+  .lede .lede-text {
+    padding: 0.5in 0.85in 0.7in 0.85in;
+  }
+  .lede .lede-text .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 8pt;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: {{accent_color}};
+    margin-bottom: 0.18in;
+  }
+  .lede .lede-text h2 {
+    font-family: 'Italiana', serif;
+    font-size: 26pt;
+    line-height: 1.15;
+    margin: 0 0 0.18in 0;
+    letter-spacing: 0.01em;
+  }
+  .lede .lede-text p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12.5pt;
+    line-height: 1.6;
+    color: {{text_color}};
+    margin: 0;
+  }
+
+  /* ===== Spread page — text-left, photo-right (alternates) ===== */
+  .spread {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 11in;
+  }
+  .spread.text-first .spread-text { order: 1; }
+  .spread.text-first .spread-photo { order: 2; }
+  .spread.photo-first .spread-photo { order: 1; }
+  .spread.photo-first .spread-text { order: 2; }
+
+  .spread .spread-photo {
+    overflow: hidden;
+    height: 11in;
+  }
+  .spread .spread-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: contrast(1.04) saturate(1.06);
+  }
+  .spread .spread-text {
+    padding: 0.85in 0.7in;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .spread .spread-text .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 8pt;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: {{accent_color}};
+    margin-bottom: 0.16in;
+  }
+  .spread .spread-text h2 {
+    font-family: 'Italiana', serif;
+    font-size: 28pt;
+    line-height: 1.1;
+    margin: 0 0 0.22in 0;
+    letter-spacing: 0.01em;
+  }
+  .spread .spread-text p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11.5pt;
+    line-height: 1.65;
+    color: {{text_color}};
+    margin: 0 0 0.16in 0;
+  }
+  .spread .spread-text .feature-list {
+    list-style: none;
+    padding: 0; margin: 0.18in 0 0 0;
+  }
+  .spread .spread-text .feature-list li {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 11pt;
+    line-height: 1.7;
+    padding-left: 18pt;
+    position: relative;
+    color: {{text_color}};
+  }
+  .spread .spread-text .feature-list li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 12pt;
+    width: 10pt; height: 1px;
+    background: {{accent_color}};
+  }
+
+  /* ===== Pull quote page ===== */
+  .pullquote-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1.4in;
+    text-align: center;
+  }
+  .pullquote-page .pq-mark {
+    font-family: 'Italiana', serif;
+    font-size: 80pt;
+    line-height: 0.6;
+    color: {{accent_color}};
+    margin-bottom: 0.3in;
+  }
+  .pullquote-page .pq-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22pt;
+    line-height: 1.4;
+    color: {{text_color}};
+  }
+  .pullquote-page .pq-attr {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 8pt;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: {{accent_color}};
+    margin-top: 0.4in;
+  }
+
+  /* ===== Spec sheet page ===== */
+  .specs {
+    padding: 0.9in 0.85in;
+  }
+  .specs .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 8pt;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: {{accent_color}};
+  }
+  .specs h2 {
+    font-family: 'Italiana', serif;
+    font-size: 32pt;
+    margin: 0.1in 0 0.4in 0;
+    letter-spacing: 0.01em;
+    border-bottom: 1px solid {{accent_color}};
+    padding-bottom: 0.18in;
+  }
+  .specs .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4in;
+    margin-bottom: 0.4in;
+  }
+  .specs h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 8pt;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: {{accent_color}};
+    margin: 0 0 0.16in 0;
+  }
+  .specs dl { margin: 0; }
+  .specs dt {
+    display: inline-block;
+    width: 1.5in;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 11pt;
+    color: #6e6a5e;
+    line-height: 1.8;
+  }
+  .specs dd {
+    display: inline;
+    margin: 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11pt;
+    color: {{text_color}};
+  }
+  .specs dd::after { content: '\A'; white-space: pre; }
+
+  .specs .neighborhood {
+    margin-top: 0.4in;
+    border-top: 1px solid #e5dfd1;
+    padding-top: 0.3in;
+  }
+
+  /* ===== Back cover ===== */
+  .back-cover {
+    background: {{text_color}};
+    color: #f5f1ea;
+    padding: 1.2in 0.85in 0.85in 0.85in;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .back-cover .top-mark {
+    font-family: 'Italiana', serif;
+    font-size: 22pt;
+    letter-spacing: 0.2em;
+    color: {{accent_color}};
+    text-align: center;
+  }
+  .back-cover .agent-large {
+    text-align: center;
+  }
+  .back-cover .agent-large .headshot {
+    width: 2in; height: 2in;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 0.3in auto;
+    background: rgba(255,255,255,0.08);
+  }
+  .back-cover .agent-large .headshot img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .back-cover .agent-large .name {
+    font-family: 'Italiana', serif;
+    font-size: 32pt;
+    letter-spacing: 0.02em;
+    margin-bottom: 4pt;
+  }
+  .back-cover .agent-large .role {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13pt;
+    color: rgba(245,241,234,0.7);
+    margin-bottom: 0.25in;
+  }
+  .back-cover .agent-large .contact-row {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12pt;
+    line-height: 1.7;
+    color: rgba(245,241,234,0.92);
+  }
+  .back-cover .qr-zone {
+    text-align: center;
+    margin-top: 0.4in;
+  }
+  .back-cover .qr-zone img {
+    width: 1.6in; height: 1.6in;
+    background: #ffffff;
+    padding: 8pt;
+  }
+  .back-cover .qr-zone .qr-cap {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 8pt;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: {{accent_color}};
+    margin-top: 0.16in;
+  }
+  .back-cover .brokerage-block {
+    text-align: center;
+    border-top: 1px solid rgba(245,241,234,0.18);
+    padding-top: 0.3in;
+  }
+  .back-cover .brokerage-block img {
+    max-height: 0.6in;
+    max-width: 1.8in;
+    filter: brightness(0) invert(1);
+    opacity: 0.85;
+    margin-bottom: 0.16in;
+  }
+  .back-cover .brokerage-block .b-name {
+    font-family: 'Italiana', serif;
+    font-size: 14pt;
+    letter-spacing: 0.06em;
+    color: rgba(245,241,234,0.92);
+  }
+  .back-cover .brokerage-block .b-info {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 8.5pt;
+    color: rgba(245,241,234,0.6);
+    margin-top: 8pt;
+    line-height: 1.6;
+    letter-spacing: 0.03em;
+  }
+  .back-cover .footer-tag {
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 6.5pt;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(245,241,234,0.45);
+    margin-top: 0.25in;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============= P1 COVER ============= -->
+<section class="page cover">
+  <div class="cover-img"><img src="{{hero_photo_url}}" alt="{{full_address}}"></div>
+  <div class="topbar">
+    {{#logo_url}}<img src="{{logo_url}}" alt="{{brokerage}}">{{/logo_url}}
+    {{^logo_url}}<span class="brand-name">{{short_brand}}</span>{{/logo_url}}
+    <span class="eyebrow">A Listing Presentation</span>
+  </div>
+  <div class="cover-title">
+    <div class="city-eyebrow">{{city}} · {{state}}</div>
+    <div class="street">{{street_address}}</div>
+    <div class="city-state">{{city}}, {{state}} {{zipcode}}</div>
+    <div class="price">{{price_formatted}}</div>
+  </div>
+  <div class="cover-footer">{{footer_tagline}}</div>
+</section>
+
+<!-- ============= P2 LEDE ============= -->
+<section class="page lede">
+  <div class="lede-photo"><img src="{{photo_lede}}" alt=""></div>
+  <div class="lede-text">
+    <div class="eyebrow">Welcome</div>
+    <h2>{{lede_headline}}</h2>
+    <p>{{lede_paragraph}}</p>
+  </div>
+  <div class="pg-num">02</div>
+</section>
+
+<!-- ============= P3 PUBLIC SPACES — text left, photo right ============= -->
+<section class="page spread text-first">
+  <div class="spread-text">
+    <div class="eyebrow">The public spaces</div>
+    <h2>{{public_headline}}</h2>
+    <p>{{public_paragraph}}</p>
+    <ul class="feature-list">
+      {{#public_pt_1}}<li>{{public_pt_1}}</li>{{/public_pt_1}}
+      {{#public_pt_2}}<li>{{public_pt_2}}</li>{{/public_pt_2}}
+      {{#public_pt_3}}<li>{{public_pt_3}}</li>{{/public_pt_3}}
+      {{#public_pt_4}}<li>{{public_pt_4}}</li>{{/public_pt_4}}
+    </ul>
+  </div>
+  <div class="spread-photo"><img src="{{photo_public}}" alt=""></div>
+  <div class="pg-num">03</div>
+</section>
+
+<!-- ============= P4 SIGNATURE FEATURE — photo left, text right ============= -->
+<section class="page spread photo-first">
+  <div class="spread-photo"><img src="{{photo_signature}}" alt=""></div>
+  <div class="spread-text">
+    <div class="eyebrow">Signature feature</div>
+    <h2>{{signature_headline}}</h2>
+    <p>{{signature_paragraph}}</p>
+    <ul class="feature-list">
+      {{#signature_pt_1}}<li>{{signature_pt_1}}</li>{{/signature_pt_1}}
+      {{#signature_pt_2}}<li>{{signature_pt_2}}</li>{{/signature_pt_2}}
+      {{#signature_pt_3}}<li>{{signature_pt_3}}</li>{{/signature_pt_3}}
+      {{#signature_pt_4}}<li>{{signature_pt_4}}</li>{{/signature_pt_4}}
+    </ul>
+  </div>
+  <div class="pg-num">04</div>
+</section>
+
+<!-- ============= P5 PRIVATE RETREAT — text left, photo right ============= -->
+<section class="page spread text-first">
+  <div class="spread-text">
+    <div class="eyebrow">Private retreat</div>
+    <h2>{{private_headline}}</h2>
+    <p>{{private_paragraph}}</p>
+    <ul class="feature-list">
+      {{#private_pt_1}}<li>{{private_pt_1}}</li>{{/private_pt_1}}
+      {{#private_pt_2}}<li>{{private_pt_2}}</li>{{/private_pt_2}}
+      {{#private_pt_3}}<li>{{private_pt_3}}</li>{{/private_pt_3}}
+    </ul>
+  </div>
+  <div class="spread-photo"><img src="{{photo_private}}" alt=""></div>
+  <div class="pg-num">05</div>
+</section>
+
+<!-- ============= P6 PULL QUOTE ============= -->
+<section class="page pullquote-page">
+  <div>
+    <div class="pq-mark">&ldquo;</div>
+    <div class="pq-body">{{pullquote_text}}</div>
+    <div class="pq-attr">From the listing</div>
+  </div>
+  <div class="pg-num">06</div>
+</section>
+
+<!-- ============= P7 SPECS ============= -->
+<section class="page specs">
+  <div class="eyebrow">By the numbers</div>
+  <h2>The Property</h2>
+
+  <div class="grid">
+    <div>
+      <h3>Property</h3>
+      <dl>
+        <dt>List Price</dt><dd>{{price_formatted}}</dd>
+        <dt>Type</dt><dd>{{home_type}}</dd>
+        <dt>Year Built</dt><dd>{{year_built}}</dd>
+        <dt>Living Area</dt><dd>{{sqft_formatted}} sq ft</dd>
+        <dt>Lot</dt><dd>{{lot_size_formatted}}</dd>
+        <dt>Bedrooms</dt><dd>{{bedrooms}}</dd>
+        <dt>Bathrooms</dt><dd>{{bathrooms}}</dd>
+        <dt>Garage</dt><dd>{{garage_spaces}} spaces</dd>
+        <dt>MLS #</dt><dd>{{mls_id}}</dd>
+      </dl>
+    </div>
+    <div>
+      <h3>Character &amp; Features</h3>
+      <dl>
+        {{#feat_1_label}}<dt>{{feat_1_label}}</dt><dd>{{feat_1_value}}</dd>{{/feat_1_label}}
+        {{#feat_2_label}}<dt>{{feat_2_label}}</dt><dd>{{feat_2_value}}</dd>{{/feat_2_label}}
+        {{#feat_3_label}}<dt>{{feat_3_label}}</dt><dd>{{feat_3_value}}</dd>{{/feat_3_label}}
+        {{#feat_4_label}}<dt>{{feat_4_label}}</dt><dd>{{feat_4_value}}</dd>{{/feat_4_label}}
+        {{#feat_5_label}}<dt>{{feat_5_label}}</dt><dd>{{feat_5_value}}</dd>{{/feat_5_label}}
+        {{#feat_6_label}}<dt>{{feat_6_label}}</dt><dd>{{feat_6_value}}</dd>{{/feat_6_label}}
+      </dl>
+    </div>
+  </div>
+
+  <div class="neighborhood">
+    <h3>The neighborhood</h3>
+    <dl>
+      {{#nb_1_label}}<dt>{{nb_1_label}}</dt><dd>{{nb_1_value}}</dd>{{/nb_1_label}}
+      {{#nb_2_label}}<dt>{{nb_2_label}}</dt><dd>{{nb_2_value}}</dd>{{/nb_2_label}}
+      {{#nb_3_label}}<dt>{{nb_3_label}}</dt><dd>{{nb_3_value}}</dd>{{/nb_3_label}}
+      {{#nb_4_label}}<dt>{{nb_4_label}}</dt><dd>{{nb_4_value}}</dd>{{/nb_4_label}}
+      {{#nb_5_label}}<dt>{{nb_5_label}}</dt><dd>{{nb_5_value}}</dd>{{/nb_5_label}}
+    </dl>
+  </div>
+
+  <div class="pg-num">07</div>
+</section>
+
+<!-- ============= P8 BACK COVER ============= -->
+<section class="page back-cover">
+  <div class="top-mark">·</div>
+
+  <div class="agent-large">
+    <div class="headshot">
+      {{#headshot_url}}<img src="{{headshot_url}}" alt="{{agent_name}}">{{/headshot_url}}
+    </div>
+    <div class="name">{{agent_name}}</div>
+    <div class="role">{{brokerage}}</div>
+    <div class="contact-row">
+      {{#phone}}{{phone}}<br>{{/phone}}
+      {{#email}}{{email}}<br>{{/email}}
+      {{#license_number}}License #{{license_number}}{{/license_number}}
+    </div>
+  </div>
+
+  <div class="qr-zone">
+    <img src="{{qr_url}}" alt="Scan for full tour">
+    <div class="qr-cap">Tour + Video Online</div>
+  </div>
+
+  <div class="brokerage-block">
+    {{#logo_url}}<img src="{{logo_url}}" alt="{{brokerage}}"><br>{{/logo_url}}
+    <div class="b-name">{{brokerage}}</div>
+    <div class="b-info">
+      {{#brokerage_address}}{{brokerage_address}}<br>{{/brokerage_address}}
+      {{#brokerage_phone}}{{brokerage_phone}}<br>{{/brokerage_phone}}
+      {{#brokerage_website}}{{brokerage_website}}{{/brokerage_website}}
+    </div>
+  </div>
+
+  <div class="footer-tag">{{footer_tagline}}</div>
+</section>
+
+</body>
+</html>

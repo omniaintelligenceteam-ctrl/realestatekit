@@ -1,0 +1,34 @@
+{
+  "_comment_top": "Brand Profile template. Copy this file, rename to <agent-slug>.json (e.g. kim-smith.json), fill in the fields, and place in this directory. Then invoke the skill with: /zillow-clone <URL> as <agent-slug> with full kit and host it",
+
+  "agent_slug": "example-agent",
+  "agent_name": "First Last",
+  "headshot_path": "agents/example-agent/headshot.jpg",
+  "phone": "270-555-0123",
+  "email": "agent@example.com",
+  "license_number": "KY-12345",
+
+  "brokerage": "Brokerage Name",
+  "brokerage_address": "123 Main St, Paducah, KY 42001",
+  "brokerage_phone": "270-555-0100",
+  "brokerage_website": "https://brokerage.com",
+  "logo_path": "agents/example-agent/logo.png",
+  "logo_dark_path": "agents/example-agent/logo-dark.png",
+
+  "primary_color": "#2c5e3f",
+  "accent_color": "#c9a449",
+  "text_color": "#1f1d1a",
+  "paper_color": "#f5f1ea",
+
+  "instagram": "@brokerage",
+  "facebook_page": "https://facebook.com/brokerage",
+  "linkedin": "https://linkedin.com/in/agent",
+
+  "tier": "monthly",
+  "_comment_tier": "tier values: 'per-listing' (dual-branded, footer shows 'Listing Kit by getoios.com', deploys to <slug>-kit.netlify.app) OR 'monthly' (full white-label, no OIOS branding, deploys to custom_domain)",
+
+  "custom_domain": "listings.brokerage.com",
+  "_comment_domain": "REQUIRED if tier=monthly. Agent owns this subdomain. CNAME record points *.listings.brokerage.com at Netlify load balancer. Auto-provisioned SSL via Let's Encrypt.",
+
+  "footer_tagline": "Brokerage Name · Paducah's trusted real estate · Equal Housing Opportunity"
+}

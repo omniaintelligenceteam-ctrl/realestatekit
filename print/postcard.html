@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{full_address}} — Just Listed Postcard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ===== Print page setup — 4.25" × 6" standard USPS postcard ===== */
+  @page {
+    size: 6in 4.25in;
+    margin: 0;
+  }
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html, body {
+    margin: 0; padding: 0;
+    background: {{paper_color}};
+    color: {{text_color}};
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10pt;
+    line-height: 1.4;
+  }
+
+  .card {
+    width: 6in;
+    height: 4.25in;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    background: {{paper_color}};
+  }
+  .card:last-child { page-break-after: auto; }
+
+  /* ============= FRONT ============= */
+  .front-photo {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  .front-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: contrast(1.04) saturate(1.06);
+  }
+  .front-photo::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg,
+      rgba(0,0,0,0.42) 0%,
+      rgba(0,0,0,0.06) 35%,
+      rgba(0,0,0,0.18) 60%,
+      rgba(0,0,0,0.72) 100%);
+  }
+
+  .front-badge {
+    position: absolute;
+    top: 0.3in; left: 0.3in;
+    background: {{accent_color}};
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 8pt;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    padding: 6pt 14pt;
+    z-index: 2;
+  }
+
+  .front-brand {
+    position: absolute;
+    top: 0.3in; right: 0.3in;
+    color: #ffffff;
+    z-index: 2;
+    text-align: right;
+  }
+  .front-brand img {
+    max-height: 0.4in;
+    max-width: 1.4in;
+    filter: brightness(0) invert(1);
+  }
+  .front-brand .brand-name-text {
+    font-family: 'Italiana', serif;
+    font-size: 11pt;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .front-address-block {
+    position: absolute;
+    bottom: 0.35in; left: 0.35in; right: 0.35in;
+    color: #ffffff;
+    z-index: 2;
+  }
+  .front-address-block .street {
+    font-family: 'Italiana', serif;
+    font-size: 22pt;
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .front-address-block .meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 6pt;
+  }
+  .front-address-block .city-state {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 11pt;
+    letter-spacing: 0.06em;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .front-address-block .price {
+    font-family: 'Italiana', serif;
+    font-size: 22pt;
+    color: #ffffff;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+
+  /* ============= BACK ============= */
+  .back {
+    padding: 0.3in;
+    display: grid;
+    grid-template-columns: 1fr 1.4in;
+    grid-template-rows: 1.05in 1fr 0.65in;
+    gap: 0.18in 0.25in;
+  }
+
+  .strip-3 {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.05in;
+    height: 1.05in;
+  }
+  .strip-3 .img {
+    overflow: hidden;
+  }
+  .strip-3 .img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: contrast(1.04) saturate(1.06);
+  }
+
+  .back-info {
+    grid-column: 1; grid-row: 2;
+    border-top: 1px solid {{accent_color}};
+    padding-top: 0.14in;
+  }
+  .back-info .headline {
+    font-family: 'Italiana', serif;
+    font-size: 14pt;
+    letter-spacing: 0.02em;
+    margin-bottom: 6pt;
+  }
+  .back-info .quick-stats {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10pt;
+    color: {{text_color}};
+    margin-bottom: 8pt;
+  }
+  .back-info .quick-stats .sep {
+    color: {{accent_color}};
+    margin: 0 6pt;
+  }
+  .back-info .agent-tag {
+    font-family: 'Inter', sans-serif;
+    font-size: 9pt;
+    line-height: 1.5;
+    color: {{text_color}};
+  }
+  .back-info .agent-tag .agent-name {
+    font-family: 'Italiana', serif;
+    font-size: 13pt;
+    letter-spacing: 0.02em;
+    color: {{text_color}};
+    display: block;
+    margin-bottom: 2pt;
+  }
+
+  .back-qr {
+    grid-column: 2; grid-row: 2;
+    text-align: center;
+    border-top: 1px solid {{accent_color}};
+    padding-top: 0.14in;
+  }
+  .back-qr img {
+    width: 1.2in; height: 1.2in;
+    border: 1px solid #e5dfd1;
+    background: #ffffff;
+    display: block;
+    margin: 0 auto;
+  }
+  .back-qr .qr-cap {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 6.5pt;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 5pt;
+    color: {{accent_color}};
+  }
+
+  .back-footer {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    border-top: 1px solid #e5dfd1;
+    padding-top: 0.1in;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .back-footer .brokerage-side {
+    display: flex;
+    align-items: center;
+    gap: 0.15in;
+  }
+  .back-footer .brokerage-side img {
+    max-height: 0.45in;
+    max-width: 1.1in;
+    object-fit: contain;
+  }
+  .back-footer .brokerage-side .brokerage-name {
+    font-family: 'Italiana', serif;
+    font-size: 11pt;
+    letter-spacing: 0.04em;
+  }
+  .back-footer .tag {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 6.5pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #9c9682;
+    text-align: right;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============= FRONT ============= -->
+<section class="card card-front">
+  <div class="front-photo">
+    <img src="{{hero_photo_url}}" alt="{{full_address}}">
+  </div>
+  <div class="front-badge">Just Listed</div>
+  <div class="front-brand">
+    {{#logo_url}}<img src="{{logo_url}}" alt="{{brokerage}}">{{/logo_url}}
+    {{^logo_url}}<div class="brand-name-text">{{short_brand}}</div>{{/logo_url}}
+  </div>
+  <div class="front-address-block">
+    <div class="street">{{street_address}}</div>
+    <div class="meta-row">
+      <div class="city-state">{{city}}, {{state}} {{zipcode}}</div>
+      <div class="price">{{price_formatted}}</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= BACK ============= -->
+<section class="card card-back">
+  <div class="back">
+    <div class="strip-3">
+      <div class="img"><img src="{{strip_photo_1}}" alt=""></div>
+      <div class="img"><img src="{{strip_photo_2}}" alt=""></div>
+      <div class="img"><img src="{{strip_photo_3}}" alt=""></div>
+    </div>
+
+    <div class="back-info">
+      <div class="headline">A new listing in {{city}}.</div>
+      <div class="quick-stats">
+        {{bedrooms}} bd<span class="sep">·</span>{{bathrooms}} ba<span class="sep">·</span>{{sqft_formatted}} sq ft<span class="sep">·</span>{{year_built}}
+      </div>
+      <div class="agent-tag">
+        <span class="agent-name">{{agent_name}}</span>
+        {{#phone}}{{phone}}<br>{{/phone}}
+        {{#email}}{{email}}{{/email}}
+      </div>
+    </div>
+
+    <div class="back-qr">
+      <img src="{{qr_url}}" alt="Scan for full tour">
+      <div class="qr-cap">Tour + Video</div>
+    </div>
+
+    <div class="back-footer">
+      <div class="brokerage-side">
+        {{#logo_url}}<img src="{{logo_url}}" alt="{{brokerage}}">{{/logo_url}}
+        {{^logo_url}}<span class="brokerage-name">{{brokerage_or_default}}</span>{{/logo_url}}
+      </div>
+      <div class="tag">{{footer_tagline}}</div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

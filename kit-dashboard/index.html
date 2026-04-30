@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{full_address}} — Listing Kit</title>
+<meta name="description" content="Marketing kit for {{full_address}} — landing page, social pack, print PDFs, email blast, photos.">
+
+<!-- OG so the dashboard URL itself shares nicely if she sends it to herself -->
+<meta property="og:title" content="{{full_address}} — Listing Kit">
+<meta property="og:description" content="One URL. Every asset. Copy-paste social, download print, view the live tour.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="{{hero_photo_url}}">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: {{paper_color}};
+    --paper-soft: #fbf8f1;
+    --ink: {{text_color}};
+    --ink-muted: #6e6a5e;
+    --accent: {{accent_color}};
+    --line: #e5dfd1;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== Header ===== */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245, 241, 234, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand {
+    font-family: 'Italiana', serif;
+    font-size: 18px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .brand img { max-height: 36px; max-width: 160px; vertical-align: middle; }
+  .live-link {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    padding: 8px 14px;
+    border-radius: 1px;
+    transition: background 0.2s;
+  }
+  .live-link:hover { background: var(--accent); color: #ffffff; }
+
+  /* ===== Hero ===== */
+  .hero {
+    position: relative;
+    height: 360px;
+    overflow: hidden;
+  }
+  .hero img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: contrast(1.04) saturate(1.06);
+  }
+  .hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg,
+      rgba(0,0,0,0.30) 0%,
+      rgba(0,0,0,0.05) 35%,
+      rgba(0,0,0,0.20) 70%,
+      rgba(0,0,0,0.65) 100%);
+  }
+  .hero-content {
+    position: absolute;
+    bottom: 28px; left: 0; right: 0;
+    text-align: center;
+    color: #ffffff;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 12px;
+  }
+  .hero-address {
+    font-family: 'Italiana', serif;
+    font-size: 36px;
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  }
+  .hero-meta {
+    margin-top: 8px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.92);
+  }
+  .hero-meta .price {
+    color: var(--accent);
+    font-style: normal;
+    font-family: 'Italiana', serif;
+    font-size: 20px;
+    margin-left: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ===== Page body grid ===== */
+  .page-body {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 36px 24px 80px;
+  }
+  .intro {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink-muted);
+    max-width: 540px;
+    margin: 0 auto 36px;
+  }
+  .section {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+  .section-head {
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper-soft);
+  }
+  .section-title {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-title .ico {
+    font-size: 20px;
+  }
+  .section-title h2 {
+    margin: 0;
+    font-family: 'Italiana', serif;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .section-title .lab {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-left: 10px;
+  }
+  .asset-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .asset-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--line);
+    gap: 16px;
+  }
+  .asset-row:last-child { border-bottom: none; }
+  .asset-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .asset-info .name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    color: var(--ink);
+  }
+  .asset-info .desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-top: 2px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .asset-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .btn {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 9px 14px;
+    border: 1px solid var(--accent);
+    border-radius: 1px;
+    background: transparent;
+    color: var(--accent);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+  }
+  .btn:hover { background: var(--accent); color: #ffffff; }
+  .btn.primary { background: var(--accent); color: #ffffff; }
+  .btn.primary:hover { background: var(--ink); border-color: var(--ink); }
+
+  /* ===== Footer ===== */
+  footer {
+    text-align: center;
+    padding: 28px 24px 40px;
+    border-top: 1px solid var(--line);
+    margin-top: 60px;
+  }
+  footer .agent-line {
+    font-family: 'Italiana', serif;
+    font-size: 18px;
+    letter-spacing: 0.06em;
+  }
+  footer .meta-line {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-top: 8px;
+    letter-spacing: 0.04em;
+  }
+  footer .tag {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 9px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-top: 16px;
+    opacity: 0.6;
+  }
+
+  /* ===== Toast for "copied!" feedback ===== */
+  .toast {
+    position: fixed;
+    bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 22px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: transform 0.3s ease;
+    z-index: 100;
+    pointer-events: none;
+  }
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ===== Mobile ===== */
+  @media (max-width: 640px) {
+    .topbar-inner { padding: 12px 18px; }
+    .brand { font-size: 14px; letter-spacing: 0.14em; }
+    .hero { height: 280px; }
+    .hero-address { font-size: 26px; }
+    .hero-meta { font-size: 12px; }
+    .hero-meta .price { font-size: 16px; display: block; margin-left: 0; margin-top: 4px; }
+    .page-body { padding: 24px 16px 60px; }
+    .section-head { padding: 14px 16px; }
+    .section-title h2 { font-size: 17px; }
+    .asset-row { padding: 12px 16px; gap: 10px; flex-wrap: wrap; }
+    .asset-info { width: 100%; }
+    .asset-actions { width: 100%; justify-content: flex-end; }
+    .btn { font-size: 9px; padding: 8px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      {{#logo_url}}<img src="{{logo_url}}" alt="{{brokerage}}">{{/logo_url}}
+      {{^logo_url}}{{brokerage_or_default}}{{/logo_url}}
+    </div>
+    <a href="{{listing_url}}" class="live-link" target="_blank" rel="noopener">View Live Tour →</a>
+  </div>
+</header>
+
+<section class="hero">
+  <img src="{{hero_photo_url}}" alt="{{full_address}}">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Listing Kit</div>
+    <div class="hero-address">{{street_address}}</div>
+    <div class="hero-meta">{{city}}, {{state}} {{zipcode}} <span class="price">{{price_formatted}}</span></div>
+  </div>
+</section>
+
+<main class="page-body">
+
+  <p class="intro">Everything you need for {{street_address}} in one place. Copy social captions, download print PDFs, grab the photo pack, view the live tour.</p>
+
+  <!-- ============ LANDING PAGE ============ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">
+        <span class="ico">🌐</span>
+        <h2>Live landing page</h2>
+        <span class="lab">Public URL</span>
+      </div>
+    </div>
+    <ul class="asset-list">
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Public listing page</div>
+          <div class="desc">{{listing_url}}</div>
+        </div>
+        <div class="asset-actions">
+          <button class="btn" data-copy="{{listing_url}}">Copy URL</button>
+          <a class="btn primary" href="{{listing_url}}" target="_blank" rel="noopener">Open</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ============ SOCIAL CAPTIONS ============ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">
+        <span class="ico">📱</span>
+        <h2>Social captions</h2>
+        <span class="lab">Copy &amp; paste</span>
+      </div>
+    </div>
+    <ul class="asset-list">
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Facebook caption</div>
+          <div class="desc">Long-form, brand-voice, OIOS playbook screened</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn" href="social/facebook-caption.txt" target="_blank">View</a>
+          <button class="btn primary" data-copy-file="social/facebook-caption.txt">Copy</button>
+        </div>
+      </li>
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Instagram caption + hashtag bank</div>
+          <div class="desc">Visual-first; geo-scoped hashtags</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn" href="social/instagram-caption.txt" target="_blank">View</a>
+          <button class="btn primary" data-copy-file="social/instagram-caption.txt">Copy</button>
+        </div>
+      </li>
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Sphere SMS blast</div>
+          <div class="desc">≤160 chars, no emojis, paste into Open Phone / your texting tool</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn" href="social/sphere-sms.txt" target="_blank">View</a>
+          <button class="btn primary" data-copy-file="social/sphere-sms.txt">Copy</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ============ EMAIL BLAST ============ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">
+        <span class="ico">📧</span>
+        <h2>Email blast</h2>
+        <span class="lab">Mailchimp / CC ready</span>
+      </div>
+    </div>
+    <ul class="asset-list">
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">HTML version</div>
+          <div class="desc">Inline-styled, paste into your email tool's HTML editor</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn" href="email/email-blast.html" target="_blank">Preview</a>
+          <a class="btn primary" href="email/email-blast.html" download>Download</a>
+        </div>
+      </li>
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Plain text version</div>
+          <div class="desc">For your email tool's plain-text fallback</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn" href="email/email-blast.txt" target="_blank">View</a>
+          <button class="btn primary" data-copy-file="email/email-blast.txt">Copy</button>
+        </div>
+      </li>
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Subject lines (3 options)</div>
+          <div class="desc">Pick one — specific beats clever</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn" href="email/email-subject-lines.txt" target="_blank">View</a>
+        </div>
+      </li>
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Preview text (2 options)</div>
+          <div class="desc">The line under the subject in inbox preview</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn" href="email/email-preview-text.txt" target="_blank">View</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ============ PRINT ============ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">
+        <span class="ico">🖨️</span>
+        <h2>Print-ready PDFs</h2>
+        <span class="lab">Send to your printer</span>
+      </div>
+    </div>
+    <ul class="asset-list">
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">8-page editorial brochure</div>
+          <div class="desc">US Letter · cover, narrative spreads, spec sheet, agent back cover</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn" href="print/brochure-8page.pdf" target="_blank">Preview</a>
+          <a class="btn primary" href="print/brochure-8page.pdf" download>Download</a>
+        </div>
+      </li>
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Leave-behind one-sheet</div>
+          <div class="desc">8.5×11 front+back · the binder centerpiece, with QR</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn" href="print/leave-behind-1sheet.pdf" target="_blank">Preview</a>
+          <a class="btn primary" href="print/leave-behind-1sheet.pdf" download>Download</a>
+        </div>
+      </li>
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">"Just Listed" postcard</div>
+          <div class="desc">USPS standard 4.25×6 mailer</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn" href="print/postcard-just-listed.pdf" target="_blank">Preview</a>
+          <a class="btn primary" href="print/postcard-just-listed.pdf" download>Download</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ============ VIDEO ============ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">
+        <span class="ico">🎬</span>
+        <h2>Video — 3 aspect ratios</h2>
+        <span class="lab">Ken Burns + narration</span>
+      </div>
+    </div>
+    <ul class="asset-list">
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Landing page (16:9)</div>
+          <div class="desc">For the live URL hero</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn primary" href="video/hero.mp4" download>Download MP4</a>
+        </div>
+      </li>
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Facebook / Instagram feed (1:1)</div>
+          <div class="desc">Square — no letterboxing on feed scroll</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn primary" href="video/hero-sq.mp4" download>Download MP4</a>
+        </div>
+      </li>
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Reels / Stories (9:16)</div>
+          <div class="desc">Vertical — full-screen on phone</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn primary" href="video/hero-vt.mp4" download>Download MP4</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ============ SOCIAL IMAGES ============ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">
+        <span class="ico">🖼️</span>
+        <h2>Social images</h2>
+        <span class="lab">Pre-sized PNGs</span>
+      </div>
+    </div>
+    <ul class="asset-list">
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Facebook feed (1080×1080)</div>
+          <div class="desc">Square, hero + price overlay</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn primary" href="social/fb-feed-1080.png" download>Download</a>
+        </div>
+      </li>
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Instagram feed (1080×1080)</div>
+          <div class="desc">Square, identical crop to FB feed</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn primary" href="social/ig-feed-1080.png" download>Download</a>
+        </div>
+      </li>
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Instagram Story (1080×1920)</div>
+          <div class="desc">Vertical, swipe-up cue at bottom</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn primary" href="social/ig-story-1080x1920.png" download>Download</a>
+        </div>
+      </li>
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Reels cover (1080×1920)</div>
+          <div class="desc">Vertical, "TAP TO TOUR" CTA</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn primary" href="social/reels-cover-1080x1920.png" download>Download</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ============ PHOTO PACK ============ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">
+        <span class="ico">📸</span>
+        <h2>Photo pack</h2>
+        <span class="lab">Full-resolution</span>
+      </div>
+    </div>
+    <ul class="asset-list">
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Selected photos zip</div>
+          <div class="desc">12+ best photos, full-res, no watermark</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn primary" href="photos/selected-pack.zip" download>Download ZIP</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ============ OPEN HOUSE TALKING POINTS ============ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">
+        <span class="ico">📋</span>
+        <h2>Open house talking points</h2>
+        <span class="lab">7 conversational beats</span>
+      </div>
+    </div>
+    <ul class="asset-list">
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Talking points reference</div>
+          <div class="desc">7 specific things to mention as buyers walk through</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn" href="extras/open-house-talking-points.txt" target="_blank">View</a>
+          <a class="btn primary" href="extras/open-house-talking-points.txt" download>Download</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ============ POST SCHEDULE ============ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">
+        <span class="ico">📅</span>
+        <h2>Suggested 7-day schedule</h2>
+        <span class="lab">Cadence guide</span>
+      </div>
+    </div>
+    <ul class="asset-list">
+      <li class="asset-row">
+        <div class="asset-info">
+          <div class="name">Post schedule</div>
+          <div class="desc">D1 FB+IG · D2 Reel · D4 Email · D7 Open-house SMS</div>
+        </div>
+        <div class="asset-actions">
+          <a class="btn" href="extras/social-schedule.txt" target="_blank">View</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+</main>
+
+<footer>
+  <div class="agent-line">{{agent_name}}</div>
+  <div class="meta-line">
+    {{brokerage}}{{#brokerage}} · {{/brokerage}}
+    {{#phone}}{{phone}} · {{/phone}}
+    {{#email}}{{email}}{{/email}}
+  </div>
+  <div class="tag">{{footer_tagline}}</div>
+</footer>
+
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+  (function () {
+    const toast = document.getElementById('toast');
+    let toastT = null;
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastT);
+      toastT = setTimeout(() => toast.classList.remove('show'), 1600);
+    }
+
+    // Copy plain string buttons (data-copy="...")
+    document.querySelectorAll('[data-copy]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const txt = btn.getAttribute('data-copy');
+        try {
+          await navigator.clipboard.writeText(txt);
+          showToast('URL copied');
+        } catch (e) {
+          showToast('Copy failed — long-press to copy');
+        }
+      });
+    });
+
+    // Copy file contents (data-copy-file="path/to.txt") — fetches the file then copies its body
+    document.querySelectorAll('[data-copy-file]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const path = btn.getAttribute('data-copy-file');
+        try {
+          const resp = await fetch(path);
+          const txt = await resp.text();
+          await navigator.clipboard.writeText(txt);
+          showToast('Copied — paste anywhere');
+        } catch (e) {
+          showToast('Copy failed — open the file and copy manually');
+        }
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

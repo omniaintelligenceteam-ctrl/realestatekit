@@ -1,0 +1,31 @@
+{
+  "_comment": "Default brand profile — used when no <agent-slug> is passed to the skill. Generates dual-branded output (per-listing tier) with the original Hyper-Agent-style typography and palette.",
+
+  "agent_slug": "_default",
+  "agent_name": "",
+  "headshot_path": null,
+  "phone": "",
+  "email": "",
+  "license_number": "",
+
+  "brokerage": "",
+  "brokerage_address": "",
+  "brokerage_phone": "",
+  "brokerage_website": "",
+  "logo_path": null,
+  "logo_dark_path": null,
+
+  "primary_color": "#a07f3f",
+  "accent_color": "#a07f3f",
+  "text_color": "#1f1d1a",
+  "paper_color": "#f5f1ea",
+
+  "instagram": "",
+  "facebook_page": "",
+  "linkedin": "",
+
+  "tier": "per-listing",
+  "custom_domain": null,
+
+  "footer_tagline": "Listing Kit by getoios.com"
+}

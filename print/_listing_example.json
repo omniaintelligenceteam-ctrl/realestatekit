@@ -1,0 +1,92 @@
+{
+  "_comment": "Smoke-test listing fixture for render_pdfs.py. Uses picsum placeholder images so the test runs offline without depending on Zillow CDN. Real pipeline will pass actual Zillow photo URLs and Claude-generated narrative blocks.",
+
+  "street_address": "148 Pheasant Run",
+  "city": "Paducah",
+  "state": "KY",
+  "zipcode": "42001",
+
+  "price": 580000,
+  "price_formatted": "$580,000",
+
+  "bedrooms": 4,
+  "bathrooms": 3,
+  "sqft": 3450,
+  "lot_size": 18295,
+  "lot_area_value": 0.42,
+  "lot_area_units": "acres",
+  "year_built": 1992,
+  "garage_spaces": 2,
+  "mls_id": "PD2025-148",
+  "home_type": "Single Family",
+
+  "photos": [
+    "https://picsum.photos/seed/148-hero/1536/1024",
+    "https://picsum.photos/seed/148-1/1024/768",
+    "https://picsum.photos/seed/148-kitchen/1024/768",
+    "https://picsum.photos/seed/148-living/1024/768",
+    "https://picsum.photos/seed/148-fireplace/1024/768",
+    "https://picsum.photos/seed/148-dining/1024/768",
+    "https://picsum.photos/seed/148-primary/1024/768",
+    "https://picsum.photos/seed/148-bath/1024/768",
+    "https://picsum.photos/seed/148-back/1536/1024"
+  ],
+
+  "lede_headline": "A quiet street, a brick exterior, and rooms that hold light all day.",
+  "lede_paragraph": "148 Pheasant Run sits at the calm end of a Paducah cul-de-sac, the kind of address where the school bus still stops at the corner. Inside, the house unfolds in a sequence of generous public rooms — a vaulted living room with a brick fireplace, a kitchen wrapped in maple cabinetry, a dining room that catches the south light. Four bedrooms upstairs. Two-car garage. A back deck that looks across half an acre of hardwoods.",
+
+  "public_headline": "Rooms that breathe.",
+  "public_paragraph": "The first floor opens into a living room with vaulted ceilings and a brick fireplace as the focal point. The kitchen flows directly off the living room — maple cabinets, granite counters, a peninsula that fits four stools. A formal dining room anchors the south side of the house and stays bright from morning through late afternoon.",
+  "public_pt_1": "Vaulted ceilings · brick fireplace",
+  "public_pt_2": "Granite counters · maple cabinets · peninsula seating",
+  "public_pt_3": "Formal dining with southern exposure",
+  "public_pt_4": "Hardwood floors throughout the public rooms",
+
+  "signature_headline": "The brick fireplace.",
+  "signature_paragraph": "Floor-to-ceiling brick, a raised hearth, a mantel wide enough for stockings or a row of framed photos. It is the room's center of gravity in winter and a quiet sculpture in summer. Two-story flue, original to the build.",
+  "signature_pt_1": "Floor-to-ceiling brick · raised hearth",
+  "signature_pt_2": "Two-story flue, original construction",
+  "signature_pt_3": "Wide mantel for seasonal display",
+  "signature_pt_4": "Anchors a vaulted-ceiling great room",
+
+  "private_headline": "A primary suite at the top of the stairs.",
+  "private_paragraph": "The primary bedroom sits at the back of the house, away from the street. A walk-in closet and a private bath with a soaking tub and separate shower. Three additional bedrooms share the upstairs hallway — flexible for kids, guests, or a home office.",
+  "private_pt_1": "Walk-in closet · soaking tub · separate shower",
+  "private_pt_2": "Quiet rear-facing exposure",
+  "private_pt_3": "Three additional upstairs bedrooms",
+
+  "pullquote_text": "A house that earns the word 'home' the way only a quiet street and good light can earn it.",
+
+  "description_short": "Sited at the calm end of a Paducah cul-de-sac, 148 Pheasant Run pairs a vaulted-ceiling great room with a generous kitchen, a private primary suite, and a back deck overlooking nearly half an acre of hardwoods. Four bedrooms, three full baths, a two-car garage, and finishes that have been carefully maintained since the home was built.",
+
+  "feat_1_label": "Roof",
+  "feat_1_value": "Architectural shingle, replaced 2021",
+  "feat_2_label": "HVAC",
+  "feat_2_value": "Two-zone, replaced 2019",
+  "feat_3_label": "Floors",
+  "feat_3_value": "Hardwood, tile, carpet upstairs",
+  "feat_4_label": "Appliances",
+  "feat_4_value": "Stainless, included in sale",
+  "feat_5_label": "Construction",
+  "feat_5_value": "Brick veneer, vinyl trim",
+  "feat_6_label": "Style",
+  "feat_6_value": "Traditional · Two-story",
+
+  "highlight_1": "Brick fireplace, vaulted living room",
+  "highlight_2": "South-facing kitchen, granite + maple",
+  "highlight_3": "Primary suite with soaking tub",
+  "highlight_4": "Half acre with mature hardwoods",
+  "highlight_5": "Two-car attached garage",
+  "highlight_6": "Quiet cul-de-sac location",
+
+  "nb_1_label": "Country Club of Paducah",
+  "nb_1_value": "4 minutes",
+  "nb_2_label": "Noble Park",
+  "nb_2_value": "7 minutes",
+  "nb_3_label": "Downtown Paducah",
+  "nb_3_value": "11 minutes",
+  "nb_4_label": "I-24 access",
+  "nb_4_value": "9 minutes",
+  "nb_5_label": "Lourdes Hospital",
+  "nb_5_value": "8 minutes"
+}

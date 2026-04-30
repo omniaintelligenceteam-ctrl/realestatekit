@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Real agent profiles contain PII (phone, email, license numbers).
+# Keep them out of the repo. Each engagement creates its own.
+# The default + example template ARE checked in.
+agents/*.json
+!agents/_default.json
+!agents/_example-template.json
+agents/*/
+
+# Output / scratch dirs
+.work/
+*.rendered.html
+_smoketest*/
+listing-kit-smoketest*/
+
+# Bundled fonts that aren't ours to redistribute (Cormorant TTF must be downloaded
+# fresh per machine; we fall back to Cambria on Windows). Keep the placeholder out.
+assets/Cormorant-SemiBold.ttf
