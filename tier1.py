@@ -2,37 +2,21 @@
 Tier 1 — Digital bundle.
 
 Produces:
-  - <slug>.html (the editorial landing page)
-  - <slug>-hero.mp4, <slug>-hero-sq.mp4, <slug>-hero-vt.mp4 (3-aspect video)
+  - <slug>.html — editorial landing page (rendered via landing_page/render_landing_page.py)
+  - <slug>-hero.mp4, <slug>-hero-sq.mp4, <slug>-hero-vt.mp4 — 3-aspect video
+    (rendered via video/render_video.py if --photos passed)
   - facebook-caption.txt + facebook-first-comment.txt
   - Optional Netlify deploy at <slug>.netlify.app
 
 Usage:
     python tier1.py --listing listing.json --slug 148-pheasant-run-paducah-ky --out ~/Downloads/<slug>/
-    python tier1.py --listing listing.json --slug <slug> --out <out> --deploy   # adds Netlify deploy
-
-NOTE: As of commit #2, the **landing-page HTML and video pipeline are NOT YET
-generalized** in this repo. They live in:
-  - `examples/116-country-club-lane-paducah-ky.html` (reference)
-  - `examples/148-pheasant-run-paducah-ky.html` (reference)
-  - `examples/2001-jefferson-street-paducah-ky.html` (reference)
-  - `video/assemble.py` (the actual FFmpeg orchestrator from the 148 build)
-
-The agent currently authors the landing-page HTML inline by cloning the structure
-of those reference files (per SKILL.md). This tier1.py is a placeholder that
-documents the contract — the next iteration will extract a fillable template from
-the references and call FFmpeg directly.
-
-For now, this script:
-  1. Copies a reference HTML to <out>/<slug>.html as a starting point
-  2. Writes the Facebook caption + first-comment files (deterministic from listing)
-  3. (TODO) Renders the 3-aspect video via assemble.py
-  4. (TODO with --deploy) Pushes to Netlify
+    python tier1.py --listing listing.json --slug <slug> --out <out> --deploy
+    python tier1.py --listing listing.json --slug <slug> --out <out> --photos p1.jpg p2.jpg ...
 """
 
 import argparse
 import json
-import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -46,7 +30,9 @@ SKILL_ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(SKILL_ROOT / "print"))
 from brand_profile import load_brand_profile  # noqa: E402
 
-REFERENCE_HTML = SKILL_ROOT / "examples" / "148-pheasant-run-paducah-ky.html"
+LANDING_RENDERER = SKILL_ROOT / "landing_page" / "render_landing_page.py"
+VIDEO_RENDERER = SKILL_ROOT / "video" / "render_video.py"
+NETLIFY_DEPLOY = SKILL_ROOT / "deploy" / "netlify_deploy.py"
 
 
 def fmt_price(p):
@@ -91,6 +77,13 @@ Tour, photos, video walkthrough — full link in the first comment.
     print(f"  OK: facebook-caption.txt + facebook-first-comment.txt")
 
 
+def run_step(label: str, cmd: list):
+    print(f"\n--- {label} ---")
+    result = subprocess.run(cmd)
+    if result.returncode != 0:
+        raise SystemExit(f"{label} failed (exit {result.returncode})")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Tier 1 — Digital bundle")
     parser.add_argument("--listing", required=True, help="Path to listing.json")
@@ -99,6 +92,9 @@ def main():
     parser.add_argument("--out", required=True, help="Output directory")
     parser.add_argument("--deploy", action="store_true", help="Auto-deploy to Netlify")
     parser.add_argument("--base-url", default=None)
+    parser.add_argument("--photos", nargs="*", help="Optional: photo paths to render the 3-aspect video")
+    parser.add_argument("--narration-text", default=None, help="Optional narration script for the video")
+    parser.add_argument("--skip-narration", action="store_true")
     args = parser.parse_args()
 
     out_dir = Path(args.out).resolve()
@@ -106,7 +102,7 @@ def main():
 
     brand = load_brand_profile(args.agent)
     print(f"=== Tier 1 — Digital ===")
-    print(f"  Brand profile: {brand.get('agent_slug')!r} (tier={brand.get('tier')!r})")
+    print(f"  Brand: {brand.get('agent_slug')!r} (tier={brand.get('tier')!r})")
     print(f"  Output: {out_dir}")
 
     with open(args.listing, "r", encoding="utf-8") as f:
@@ -114,28 +110,55 @@ def main():
 
     listing_url = args.base_url or derive_listing_url(args.slug, brand)
 
-    # 1. Landing page HTML — currently a copy of the reference (TODO: extract template)
-    if REFERENCE_HTML.exists():
-        target = out_dir / f"{args.slug}.html"
-        shutil.copy(REFERENCE_HTML, target)
-        print(f"  OK: {target.name} (cloned from reference — agent should hand-edit per SKILL.md)")
-    else:
-        print(f"  SKIP: No reference HTML at {REFERENCE_HTML}")
+    # 1. Landing page HTML — anchored substitution on 148 reference
+    cmd = [
+        sys.executable, str(LANDING_RENDERER),
+        "--listing", args.listing,
+        "--slug", args.slug,
+        "--out", str(out_dir),
+    ]
+    if args.agent:
+        cmd += ["--agent", args.agent]
+    if args.base_url:
+        cmd += ["--base-url", args.base_url]
+    run_step("Landing page", cmd)
 
-    # 2. Facebook caption + first-comment
+    # 2. Facebook caption + first-comment (deterministic)
+    print(f"\n--- Facebook caption ---")
     write_facebook_caption(out_dir, listing_raw, brand, listing_url)
 
-    # 3. Video — TODO
-    print(f"  TODO: 3-aspect video pipeline (see video/assemble.py — currently per-listing scratch)")
-
-    # 4. Deploy — TODO
-    if args.deploy:
-        print(f"  TODO: Netlify deploy → {listing_url}")
-        print(f"        (zip {out_dir} and POST to /api/v1/sites/<id>/deploys)")
+    # 3. Video — only if --photos provided
+    if args.photos:
+        video_out = out_dir / "video"
+        cmd = [
+            sys.executable, str(VIDEO_RENDERER),
+            "--photos", *args.photos,
+            "--slug", args.slug,
+            "--out", str(video_out),
+        ]
+        if args.narration_text:
+            cmd += ["--narration-text", args.narration_text]
+        if args.skip_narration:
+            cmd += ["--skip-narration"]
+        run_step("3-aspect video", cmd)
     else:
-        print(f"  Skipping deploy (no --deploy flag)")
+        print(f"\n--- Video: skipped (no --photos provided) ---")
 
-    print(f"\nLanding URL target: {listing_url}")
+    # 4. Deploy to Netlify
+    if args.deploy:
+        cmd = [
+            sys.executable, str(NETLIFY_DEPLOY),
+            "--dir", str(out_dir),
+            "--slug", args.slug,
+            "--tier", brand.get("tier", "per-listing"),
+        ]
+        run_step("Netlify deploy", cmd)
+    else:
+        print(f"\n--- Deploy: skipped (no --deploy flag) ---")
+
+    print(f"\n=== Tier 1 complete ===")
+    print(f"  Output: {out_dir}")
+    print(f"  Landing target: {listing_url}")
 
 
 if __name__ == "__main__":

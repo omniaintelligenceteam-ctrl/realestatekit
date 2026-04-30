@@ -32,6 +32,8 @@ except (AttributeError, ValueError):
 
 SKILL_ROOT = Path(__file__).resolve().parent
 ORCHESTRATOR = SKILL_ROOT / "kit-dashboard" / "render_dashboard.py"
+LANDING_RENDERER = SKILL_ROOT / "landing_page" / "render_landing_page.py"
+NETLIFY_DEPLOY = SKILL_ROOT / "deploy" / "netlify_deploy.py"
 
 
 def main():
@@ -63,9 +65,31 @@ def main():
     if result.returncode != 0:
         raise SystemExit(f"Kit render failed (exit {result.returncode})")
 
+    # Also render the standalone landing page for parity with Tier 1
+    print(f"\n--- Landing page (in addition to dashboard) ---")
+    cmd = [
+        sys.executable, str(LANDING_RENDERER),
+        "--listing", args.listing,
+        "--slug", args.slug,
+        "--out", args.out,
+    ]
+    if args.agent:
+        cmd += ["--agent", args.agent]
+    if args.base_url:
+        cmd += ["--base-url", args.base_url]
+    subprocess.run(cmd, check=True)
+
     if args.deploy:
-        print(f"\n  TODO: Netlify deploy of {args.out} → <slug>-kit.netlify.app")
-        print(f"        (zip the directory and POST to /api/v1/sites/<id>/deploys)")
+        print(f"\n--- Netlify deploy ---")
+        cmd = [
+            sys.executable, str(NETLIFY_DEPLOY),
+            "--dir", args.out,
+            "--slug", f"{args.slug}-kit",
+            "--tier", "per-listing",
+        ]
+        result = subprocess.run(cmd)
+        if result.returncode != 0:
+            raise SystemExit(f"Deploy failed (exit {result.returncode})")
     else:
         print(f"\n  Skipping deploy (no --deploy flag)")
 

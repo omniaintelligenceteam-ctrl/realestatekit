@@ -33,6 +33,8 @@ sys.path.insert(0, str(SKILL_ROOT / "print"))
 from brand_profile import load_brand_profile  # noqa: E402
 
 ORCHESTRATOR = SKILL_ROOT / "kit-dashboard" / "render_dashboard.py"
+LANDING_RENDERER = SKILL_ROOT / "landing_page" / "render_landing_page.py"
+NETLIFY_DEPLOY = SKILL_ROOT / "deploy" / "netlify_deploy.py"
 
 
 def main():
@@ -77,11 +79,35 @@ def main():
     if result.returncode != 0:
         raise SystemExit(f"Kit render failed (exit {result.returncode})")
 
+    # Also render the standalone landing page (for the agent's site root)
+    print(f"\n--- Landing page (white-label) ---")
+    cmd = [
+        sys.executable, str(LANDING_RENDERER),
+        "--listing", args.listing,
+        "--agent", args.agent,
+        "--slug", args.slug,
+        "--out", args.out,
+    ]
+    subprocess.run(cmd, check=True)
+
     # TODO: Generate "Just Sold" postcard variant (Tier 3 only)
     print(f"\n  TODO: Just-sold postcard (Tier 3 only — same template, different copy)")
 
     if args.deploy:
-        print(f"\n  TODO: Deploy {args.out} → https://{args.slug}.{brand['custom_domain']}")
+        # For Tier 3, deploy requires either --site-id (existing site with wildcard
+        # domain) or assumes the agent has wildcard CNAME → we create a sub-site.
+        print(f"\n--- Netlify deploy (white-label) ---")
+        cmd = [
+            sys.executable, str(NETLIFY_DEPLOY),
+            "--dir", args.out,
+            "--slug", f"{args.slug}-{brand['agent_slug']}",
+            "--tier", "monthly",
+        ]
+        result = subprocess.run(cmd)
+        if result.returncode != 0:
+            raise SystemExit(f"Deploy failed (exit {result.returncode})")
+        print(f"  Note: Final URL https://{args.slug}.{brand['custom_domain']} requires")
+        print(f"        wildcard CNAME on her domain pointing to Netlify load balancer.")
     else:
         print(f"\n  Skipping deploy (no --deploy flag)")
 
