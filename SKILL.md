@@ -36,12 +36,20 @@ Take a Zillow listing URL → produce a self-contained editorial-style HTML land
 
 ## Reference templates
 
-Don't regenerate from scratch — clone structure from the most recent working file:
+Don't regenerate from scratch — clone structure from the most recent working file. **Default to LAYOUT-B for new builds** (Hyper Agent base + video hero + alternating feature strips, locked in 2026-04-30 after Wes preview).
 
-- `C:\Users\default.DESKTOP-ON29PVN\Downloads\116-country-club-lane-paducah-ky.html` — most recent, static-hero version
-- `C:\Users\default.DESKTOP-ON29PVN\Downloads\2001-jefferson-street-paducah-ky.html` — original Hyper Agent reference (has the Veo 3.1 video)
+**Locked-in default (Wes 2026-04-30):**
+- `C:\Users\default.DESKTOP-ON29PVN\Downloads\321-n-8th-st-paducah-ky-EXAMPLES\321-n-8th-st-paducah-ky-LAYOUT-B.html` — **the new default**. Hyper Agent base (Playfair Display + Cormorant Garamond + Inter; cream/terracotta/gold palette) + autoplay-muted video hero with tap-for-sound + alternating feature strips (image-left then text-left, each with Playfair h3 + Cormorant para + 6 gold-dashed bullets in 2-col grid) + 5-col stats + At-a-Glance facts + lifestyle scores + schools + dark-ink agent CTA. Pair with rendered MP4 at `<EXAMPLES>/video/<slug>-hero.mp4`.
 
-Both use Italiana (display) / Cormorant Garamond (serif body) / Inter (sans). Palette: paper `#f5f1ea`, ink `#1f1d1a`, gold `#a07f3f`. Sections in order: topbar → hero → highlights strip → narrative → 2 feature pulls → pull quote → masonry gallery → details (2 cols) → location → inquiry/agent → footer → lightbox.
+**Permanent skill references (sanitized — no runtime scripts):**
+- `~/.claude/skills/zillow-clone/examples/321-n-8th-hyper-agent-reference.html` — Hyper Agent typographic/palette source: Playfair Display, terracotta `#8C3F2A`, mixed-italic h1, drop-cap, At-a-Glance facts panel with terracotta top border, lifestyle scores, schools list. Header comment lists every distinctive design move.
+- `~/.claude/skills/zillow-clone/examples/2001-jefferson-video-hero.html` — Hyper Agent layout/JS source: video hero with autoplay-muted + tap-for-sound + mute toggle, alternating feature strips, lightbox, breakpoint-aware topbar JS. Header comment lists every layout move.
+
+**Older references (Italiana variant — keep for static-hero builds):**
+- `C:\Users\default.DESKTOP-ON29PVN\Downloads\116-country-club-lane-paducah-ky.html` — most recent static-hero version, Italiana display
+- `C:\Users\default.DESKTOP-ON29PVN\Downloads\2001-jefferson-street-paducah-ky.html` — original Hyper Agent reference with Veo 3.1 video, Italiana display
+
+The 116/2001 Italiana variant uses paper `#f5f1ea`, ink `#1f1d1a`, gold `#a07f3f`. The LAYOUT-B Hyper Agent variant uses cream `#FAF6EF`, paper `#F4EEE2`, ink `#231C16`, terracotta `#8C3F2A`, gold `#A98B5B`. Sections in order (both): topbar/ribbon → hero → stats strip → narrative → 2 feature strips → masonry gallery → details/location → agent CTA → footer → lightbox.
 
 **Typography rule — Italiana only for large single-word/phrase headings.** Do NOT use Italiana for numerals, stats, or mixed text — it renders numbers inconsistently (italic "2", cursive "0") at body sizes. Correct assignments:
 - `.stat-num` → `'Inter', sans-serif; font-weight: 300; letter-spacing: -0.01em` (NOT Italiana, NOT Cormorant — Inter's "1" is unambiguous; Cormorant's "1" looks like capital "I")
